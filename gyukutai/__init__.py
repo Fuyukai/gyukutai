@@ -106,7 +106,7 @@ def apply():
     """
     Applies the tweaks to the objectss.
     """
-    for victim in [list, tuple, collections.Iterable, type({}.keys()), type({}.values())]:
+    for victim in [list, tuple, collections.Iterable, type({}.keys()), type({}.values()), type(_ for _ in []), range]:
         forbiddenfruit.curse(victim, "find", find_prop)
         forbiddenfruit.curse(victim, "apply", apply_prop)
         forbiddenfruit.curse(victim, "all", all_prop)
