@@ -1,3 +1,4 @@
+import random
 import typing
 import types
 import collections
@@ -98,17 +99,27 @@ class _FilterOr(_Base):
 
         return results
 
+
 filter_prop = property(fget=lambda l: _FilterOr(l),
                        doc="Given a piped callable, filters through all items and returns a new sequence.")
+
+
+# `list.sample` impl
+def _sample(self: collections.Collection):
+    return random.choice(self)
+
+sample_prop = property(fget=_sample,
+                       doc="Returns a random item from the collection.")
 
 
 def apply():
     """
     Applies the tweaks to the objectss.
     """
-    for victim in [list, tuple, collections.Iterable, type({}.keys()), type({}.values()), types.GeneratorType, range]:
+    for victim in [list, tuple, collections.Collection, type({}.keys()), type({}.values()), types.GeneratorType, range]:
         forbiddenfruit.curse(victim, "find", find_prop)
         forbiddenfruit.curse(victim, "apply", apply_prop)
         forbiddenfruit.curse(victim, "all", all_prop)
         forbiddenfruit.curse(victim, "any", any_prop)
         forbiddenfruit.curse(victim, "filter", filter_prop)
+        forbiddenfruit.curse(victim, "_sample", sample_prop)
