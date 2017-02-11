@@ -122,4 +122,4 @@ def apply():
         forbiddenfruit.curse(victim, "all", all_prop)
         forbiddenfruit.curse(victim, "any", any_prop)
         forbiddenfruit.curse(victim, "filter", filter_prop)
-        forbiddenfruit.curse(victim, "_sample", sample_prop)
+        forbiddenfruit.curse(victim, "sample", sample_prop)
