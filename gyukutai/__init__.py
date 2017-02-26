@@ -1,7 +1,7 @@
 import random
 import typing
 import types
-import collections
+import collections.abc
 # If you ever see this in a project, run.
 # This is never a good thing.
 import forbiddenfruit
@@ -105,7 +105,7 @@ filter_prop = property(fget=lambda l: _FilterOr(l),
 
 
 # `list.sample` impl
-def _sample(self: collections.Collection):
+def _sample(self: collections.abc.Collection):
     return random.choice(self)
 
 sample_prop = property(fget=_sample,
@@ -116,7 +116,7 @@ def apply():
     """
     Applies the tweaks to the objectss.
     """
-    for victim in [list, tuple, collections.Collection, type({}.keys()), type({}.values()), types.GeneratorType, range]:
+    for victim in [list, tuple, collections.abc.Collection, type({}.keys()), type({}.values()), types.GeneratorType, range]:
         forbiddenfruit.curse(victim, "find", find_prop)
         forbiddenfruit.curse(victim, "apply", apply_prop)
         forbiddenfruit.curse(victim, "all", all_prop)
