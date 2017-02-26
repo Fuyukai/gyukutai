@@ -6,7 +6,7 @@ import collections.abc
 # This is never a good thing.
 import forbiddenfruit
 
-if "Collection" in collections.abc.__all__:
+if hasattr(collections.abc, "Collection"):
     Collection = collections.abc.Collection
 else:
     class Collection(collections.abc.Sized, collections.abc.Iterable,
