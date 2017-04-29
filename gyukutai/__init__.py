@@ -38,7 +38,8 @@ class _FindOr(_Base):
         return None
 
 
-find_prop = property(fget=lambda l: _FindOr(l), doc="Given a piped callable, finds an object in the list.")
+find_prop = property(fget=lambda l: _FindOr(l),
+                     doc="Given a piped callable, finds an object in the list.")
 
 
 # `list.apply | callable` impl
@@ -54,7 +55,8 @@ class _ApplyOr(_Base):
         return result
 
 
-apply_prop = property(fget=lambda l: _ApplyOr(l), doc="Given a piped callable, applies it to all items in the list.")
+apply_prop = property(fget=lambda l: _ApplyOr(l),
+                      doc="Given a piped callable, applies it to all items in the list.")
 
 
 # `list.all | callable` impl
@@ -114,6 +116,7 @@ filter_prop = property(fget=lambda l: _FilterOr(l),
 def _sample(self: Collection):
     return random.choice(self)
 
+
 sample_prop = property(fget=_sample,
                        doc="Returns a random item from the collection.")
 
@@ -122,7 +125,8 @@ def apply():
     """
     Applies the tweaks to the objectss.
     """
-    for victim in [list, tuple, Collection, type({}.keys()), type({}.values()), types.GeneratorType, range]:
+    for victim in [list, tuple, collections.Collection, type({}.keys()), type({}.values()),
+                   types.GeneratorType, range]:
         forbiddenfruit.curse(victim, "find", find_prop)
         forbiddenfruit.curse(victim, "apply", apply_prop)
         forbiddenfruit.curse(victim, "all", all_prop)
