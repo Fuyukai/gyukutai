@@ -1,17 +1,13 @@
+import collections
+import itertools
 import random
-import typing
 import types
-import collections.abc
+import typing
+
 # If you ever see this in a project, run.
 # This is never a good thing.
 import forbiddenfruit
 
-if hasattr(collections.abc, "Collection"):
-    Collection = collections.abc.Collection
-else:
-    class Collection(collections.abc.Sized, collections.abc.Iterable,
-                     collections.abc.Container):
-        pass
 
 class _Base(object):
     def __init__(self, seq: typing.Sequence):
@@ -73,7 +69,8 @@ class _AllOr(_Base):
 
 
 all_prop = property(fget=lambda l: _AllOr(l),
-                    doc="Given a piped callable, ensures all items return True when provided as an argument "
+                    doc="Given a piped callable, ensures all items return True when provided as "
+                        "an argument "
                         "to the callable.")
 
 
@@ -109,16 +106,30 @@ class _FilterOr(_Base):
 
 
 filter_prop = property(fget=lambda l: _FilterOr(l),
-                       doc="Given a piped callable, filters through all items and returns a new sequence.")
+                       doc="Given a piped callable, filters through all items and returns a new "
+                           "sequence.")
 
 
 # `list.sample` impl
-def _sample(self: Collection):
+def _sample(self: collections.Collection):
     return random.choice(self)
 
 
 sample_prop = property(fget=_sample,
                        doc="Returns a random item from the collection.")
+
+
+class _GroupBy(_Base):
+    def __or__(self, other):
+        if not callable(other):
+            return NotImplemented
+
+        return itertools.groupby(self.seq, key=other)
+
+
+groupby_prop = property(fget=lambda l: _GroupBy(l),
+                        doc="Given a piped callable, groups all objects in this collection using"
+                            "that callable.")
 
 
 def apply():
@@ -133,3 +144,4 @@ def apply():
         forbiddenfruit.curse(victim, "any", any_prop)
         forbiddenfruit.curse(victim, "filter", filter_prop)
         forbiddenfruit.curse(victim, "sample", sample_prop)
+        forbiddenfruit.curse(victim, "group_by", groupby_prop)
